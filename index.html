@@ -3,888 +3,290 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Méthodes Logistiques — Outils</title>
+<title>Outils // Méthode Logistique</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg: #f6f4ee;
-    --bg-alt: #efece3;
     --panel: #ffffff;
     --panel-hover: #fbf9f4;
-    --panel-active: #f7f3e7;
     --border: #e8e2d5;
-    --border-strong: #d9cfb8;
-    --text: #2a2924;
-    --text-soft: #4a4840;
+    --text: #33322d;
     --muted: #948d7d;
-    --muted-soft: #b8b0a0;
     --amber: #eeb96a;
     --amber-ink: #6b4a17;
-    --amber-soft: #fbe9c7;
     --red: #e2948d;
     --red-ink: #7a3129;
-    --red-soft: #fbeae8;
-    --green: #7fb08c;
-    --green-ink: #1f4a2e;
-    --green-soft: #e5f2e9;
-    --blue: #7a9fc4;
-    --blue-ink: #1d3a5a;
-    --blue-soft: #e3ecf7;
-    --shadow-sm: 0 1px 2px rgba(80,64,30,0.04), 0 1px 3px rgba(80,64,30,0.06);
-    --shadow-md: 0 4px 12px rgba(80,64,30,0.08), 0 10px 30px rgba(80,64,30,0.10);
-    --shadow-lg: 0 24px 60px rgba(60,50,20,0.18);
-    --radius-sm: 8px;
-    --radius: 12px;
-    --radius-lg: 16px;
-    --radius-xl: 20px;
-    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow-sm: 0 1px 3px rgba(80,64,30,0.06);
+    --shadow-md: 0 10px 30px rgba(80,64,30,0.10);
   }
-  html[data-theme="dark"]{
-    --bg: #1a1915;
-    --bg-alt: #24221c;
-    --panel: #2a2821;
-    --panel-hover: #33302a;
-    --panel-active: #3d3930;
-    --border: #3a372e;
-    --border-strong: #4d4a3f;
-    --text: #f0ede5;
-    --text-soft: #c8c3b5;
-    --muted: #8a8477;
-    --muted-soft: #6b6559;
-    --amber: #eeb96a;
-    --amber-ink: #fef3dc;
-    --amber-soft: #4a3920;
-    --red: #e2948d;
-    --red-ink: #ffe4e0;
-    --red-soft: #4a2924;
-    --green: #7fb08c;
-    --green-ink: #e5f2e9;
-    --green-soft: #1f3928;
-    --blue: #7a9fc4;
-    --blue-ink: #e3ecf7;
-    --blue-soft: #1d3a5a;
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.2), 0 1px 3px rgba(0,0,0,0.3);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.3), 0 10px 30px rgba(0,0,0,0.4);
-    --shadow-lg: 0 24px 60px rgba(0,0,0,0.6);
-  }
-
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
   body{
     margin:0;
     background:
-      radial-gradient(1200px 600px at 100% -10%, rgba(238,185,106,0.08), transparent 60%),
-      radial-gradient(900px 500px at -10% 110%, rgba(122,159,196,0.06), transparent 60%),
+      radial-gradient(1000px 500px at 100% -10%, rgba(238,185,106,0.10), transparent 60%),
       var(--bg);
     color:var(--text);
-    font-family:'Inter', system-ui, sans-serif;
+    font-family:'Inter', sans-serif;
     min-height:100vh;
-    font-feature-settings: "ss01", "cv11";
-    -webkit-font-smoothing: antialiased;
-    transition: background 0.3s var(--ease), color 0.3s var(--ease);
   }
+  .wrap{max-width:1600px; margin:0 auto; padding:40px 40px 80px;}
 
-  .wrap{max-width:1600px; margin:0 auto; padding:32px 40px 80px;}
+  header{display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:20px; margin-bottom:28px; border-bottom:1px solid var(--border); padding-bottom:20px;}
+  h1{font-family:'Space Grotesk', sans-serif; font-size:30px; margin:0; font-weight:700; letter-spacing:-0.5px; color:#2a2924;}
+  .sub{color:var(--muted); font-size:13px; margin-top:6px;}
 
-  /* ============ HEADER ============ */
-  header{
-    display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
-    gap:20px; margin-bottom:24px;
-    padding-bottom:24px; border-bottom:1px solid var(--border);
-  }
-  .brand{display:flex; align-items:center; gap:14px;}
-  .brand-logo{
-    width:44px; height:44px; border-radius:12px;
-    background: linear-gradient(135deg, var(--amber), #d69a44);
-    display:flex; align-items:center; justify-content:center;
-    box-shadow: 0 4px 12px rgba(238,185,106,0.3);
-    flex-shrink:0;
-  }
-  .brand-logo svg{width:24px; height:24px; color:#6b4a17;}
-  h1{
-    font-family:'Space Grotesk', sans-serif; font-size:26px; margin:0; font-weight:700;
-    letter-spacing:-0.5px; color:var(--text); line-height:1.1;
-  }
-  .sub{color:var(--muted); font-size:13px; margin-top:4px; display:flex; align-items:center; gap:8px;}
-  .sub .count{
-    background:var(--bg-alt); color:var(--text-soft); padding:2px 8px;
-    border-radius:99px; font-size:11px; font-weight:500;
-    font-family:'JetBrains Mono', monospace;
-  }
-
-  .header-actions{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
-
-  /* ============ BUTTONS ============ */
   button, .btn{
     font-family:'Inter', sans-serif;
     border:1px solid var(--border);
     background:var(--panel);
     color:var(--text);
-    padding:9px 14px;
-    border-radius:var(--radius);
+    padding:10px 16px;
+    border-radius:10px;
     font-size:13px;
-    font-weight:500;
     cursor:pointer;
     box-shadow:var(--shadow-sm);
-    transition: all .15s var(--ease);
+    transition: border-color .15s ease, background .15s ease, transform .1s ease, box-shadow .15s ease;
     display:inline-flex; align-items:center; gap:8px;
-    text-decoration:none;
-    position:relative;
   }
-  button:hover, .btn:hover{border-color:var(--border-strong); background:var(--panel-hover); box-shadow:var(--shadow-md); transform:translateY(-1px);}
-  button:active, .btn:active{transform:translateY(0);}
-  button:focus-visible, .btn:focus-visible, input:focus-visible, textarea:focus-visible{
-    outline:2px solid var(--amber); outline-offset:2px;
-  }
-  button svg{width:15px; height:15px; flex-shrink:0;}
+  button:hover{border-color:#d9cfb8; background:var(--panel-hover); box-shadow:var(--shadow-md);}
+  button:active{transform:scale(0.98);}
   .btn-primary{background:var(--amber); color:var(--amber-ink); border-color:var(--amber); font-weight:600;}
   .btn-primary:hover{background:#f2c785; border-color:#f2c785;}
-  .btn-ghost{background:transparent; box-shadow:none; border-color:transparent;}
-  .btn-ghost:hover{box-shadow:none; background:var(--panel-hover); border-color:var(--border);}
-  .btn-icon{padding:9px; width:36px; height:36px; justify-content:center;}
-  .btn-danger{color:var(--red-ink);}
-  .btn-danger:hover{background:var(--red-soft); border-color:var(--red);}
-  .btn .kbd{
-    font-family:'JetBrains Mono', monospace;
-    font-size:10px; padding:2px 5px; border-radius:4px;
-    background:var(--bg-alt); border:1px solid var(--border);
-    color:var(--muted);
-  }
+  .btn-ghost{background:transparent; box-shadow:none;}
+  .btn-ghost:hover{box-shadow:var(--shadow-sm);}
 
-  /* ============ TOOLBAR ============ */
-  .toolbar{
-    display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+  .search{
+    width:100%;
+    background:var(--panel); border:1px solid var(--border); border-radius:10px;
+    padding:11px 14px; color:var(--text); font-size:14px; box-shadow:var(--shadow-sm);
     margin-bottom:20px;
   }
-  .search-wrap{position:relative; flex:1; min-width:240px;}
-  .search-wrap svg{
-    position:absolute; left:12px; top:50%; transform:translateY(-50%);
-    width:15px; height:15px; color:var(--muted); pointer-events:none;
-  }
-  .search{
-    width:100%; background:var(--panel); border:1px solid var(--border);
-    border-radius:var(--radius); padding:10px 40px 10px 38px;
-    color:var(--text); font-size:14px; box-shadow:var(--shadow-sm);
-    font-family:inherit;
-  }
-  .search::placeholder{color:var(--muted-soft);}
-  .search:focus{outline:none; border-color:var(--amber); box-shadow:0 0 0 3px var(--amber-soft);}
-  .search-kbd{
-    position:absolute; right:10px; top:50%; transform:translateY(-50%);
-    font-family:'JetBrains Mono', monospace; font-size:11px;
-    padding:2px 6px; border-radius:4px;
-    background:var(--bg-alt); border:1px solid var(--border);
-    color:var(--muted); pointer-events:none;
-  }
+  .search::placeholder{color:var(--muted);}
+  .search:focus{outline:none; border-color:var(--amber);}
 
-  .toolbar-group{display:flex; gap:4px; background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:3px; box-shadow:var(--shadow-sm);}
-  .toolbar-group button{
-    box-shadow:none; border:none; padding:6px 10px;
-    background:transparent; color:var(--muted);
-  }
-  .toolbar-group button:hover{background:var(--panel-hover); color:var(--text);}
-  .toolbar-group button.active{background:var(--panel-active); color:var(--text); box-shadow:var(--shadow-sm);}
+  .grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(210px, 1fr)); gap:12px;}
 
-  /* ============ FILTERS ============ */
-  .filters{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:18px; min-height:8px;}
-  .filter-chip{
-    padding:5px 11px; border-radius:99px;
-    background:var(--panel); border:1px solid var(--border);
-    font-size:12px; color:var(--muted); cursor:pointer;
-    transition: all .15s var(--ease);
-    display:inline-flex; align-items:center; gap:5px;
-  }
-  .filter-chip:hover{border-color:var(--border-strong); color:var(--text);}
-  .filter-chip.active{background:var(--amber-soft); border-color:var(--amber); color:var(--amber-ink);}
-  .filter-chip .count{font-family:'JetBrains Mono', monospace; font-size:10px; opacity:0.7;}
-  .filter-chip.clear{color:var(--red-ink); border-style:dashed;}
-
-  /* ============ GRID ============ */
-  .grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
-    gap:14px;
-  }
-  .grid.list-view{grid-template-columns:1fr;}
-  .grid.list-view .card{padding:14px 18px;}
-  .grid.list-view .card-body{flex-direction:row; align-items:center; gap:16px;}
-  .grid.list-view .card-body > .card-meta{flex:1; min-width:0;}
-  .grid.list-view .card-actions{position:static; opacity:1; flex-shrink:0;}
-  .grid.list-view .card h3{-webkit-line-clamp:1; padding-right:0;}
-  .grid.list-view .card p{-webkit-line-clamp:1;}
-
-  /* ============ CARD ============ */
   .card{
-    position:relative; display:flex; flex-direction:column;
-    background:var(--panel); border:1px solid var(--border);
-    border-radius:var(--radius-lg); padding:16px 18px;
-    box-shadow:var(--shadow-sm); text-decoration:none; color:inherit;
-    cursor:pointer; transition: all .2s var(--ease);
-    animation: cardIn .4s var(--ease) backwards;
+    position:relative;
+    display:block;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:14px 16px;
+    box-shadow:var(--shadow-sm);
+    text-decoration:none;
+    color:inherit;
+    cursor:pointer;
+    transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
   }
-  .card:hover{
-    transform:translateY(-3px); border-color:var(--amber);
-    box-shadow:var(--shadow-md);
-  }
-  .card:focus-visible{transform:translateY(-3px); outline:2px solid var(--amber); outline-offset:2px;}
-  .card.no-link{cursor:default;}
-  .card.no-link:hover{transform:none; border-color:var(--border); box-shadow:var(--shadow-sm);}
-  .card.pinned{border-left:3px solid var(--amber); padding-left:15px;}
-  .card.pinned .pin-indicator{display:flex;}
-
-  .card-body{display:flex; flex-direction:column; gap:8px; flex:1; min-width:0;}
+  .card:hover{transform:translateY(-2px); border-color:var(--amber); box-shadow:var(--shadow-md);}
   .card h3{
-    font-family:'Space Grotesk', sans-serif; font-size:15px; margin:0;
-    font-weight:600; color:var(--text); line-height:1.3;
-    padding-right:50px;
+    font-family:'Space Grotesk', sans-serif; font-size:15px; margin:0 0 4px; font-weight:700;
+    color:#2a2924; padding-right:44px;
     display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden;
   }
   .card p{
-    font-size:12.5px; color:var(--muted); line-height:1.5; margin:0;
+    font-size:12px; color:var(--muted); line-height:1.4; margin:0;
     display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
   }
-  .card-meta{display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; align-items:center;}
-  .tag{
-    font-size:10.5px; padding:2px 8px; border-radius:99px;
-    background:var(--bg-alt); color:var(--text-soft);
-    font-family:'JetBrains Mono', monospace;
-    text-transform:lowercase;
-  }
-  .tag.cat-pilotage{background:var(--blue-soft); color:var(--blue-ink);}
-  .tag.cat-conformite{background:var(--green-soft); color:var(--green-ink);}
-  .tag.cat-analyse{background:var(--amber-soft); color:var(--amber-ink);}
-  .tag.cat-qualite{background:var(--red-soft); color:var(--red-ink);}
-  .tag.cat-autre{background:var(--bg-alt); color:var(--text-soft);}
-
+  .card.no-link{cursor:default;}
   .card-actions{
-    position:absolute; top:10px; right:10px;
-    display:flex; gap:2px; opacity:0;
-    transition: opacity .15s var(--ease);
-    background:var(--panel); border:1px solid var(--border);
-    border-radius:var(--radius-sm); padding:2px;
-    box-shadow:var(--shadow-sm);
+    position:absolute; top:10px; right:10px; display:flex; gap:2px;
+    opacity:0; transition:opacity .12s ease;
   }
   .card:hover .card-actions, .card:focus-within .card-actions{opacity:1;}
   .icon-btn{
-    border:none; background:transparent; box-shadow:none;
-    color:var(--muted); padding:6px; border-radius:6px;
-    width:28px; height:28px; display:flex;
-    align-items:center; justify-content:center;
+    border:none; background:transparent; box-shadow:none; color:var(--muted);
+    padding:4px 6px; font-size:13px; border-radius:6px; line-height:1;
   }
-  .icon-btn svg{width:14px; height:14px;}
-  .icon-btn:hover{background:var(--panel-hover); color:var(--text);}
-  .icon-btn.pin:hover{color:var(--amber-ink); background:var(--amber-soft);}
-  .icon-btn.pin.pinned{color:var(--amber-ink);}
-  .icon-btn.del:hover{background:var(--red-soft); color:var(--red-ink);}
+  .icon-btn:hover{background:#f1ece0; color:var(--text); box-shadow:none;}
+  .icon-btn.del:hover{background:#fbeae8; color:var(--red-ink);}
 
-  .pin-indicator{
-    display:none; align-items:center; gap:4px;
-    font-size:10px; color:var(--amber-ink); font-weight:500;
-    margin-left:auto;
+  .empty{
+    grid-column:1/-1; text-align:center; padding:60px 20px; color:var(--muted);
+    border:1px dashed var(--border); border-radius:16px; font-size:14px; background:var(--panel);
   }
-  .pin-indicator svg{width:11px; height:11px;}
+  .empty strong{color:var(--text); display:block; font-family:'Space Grotesk',sans-serif; font-size:17px; margin-bottom:8px;}
 
-  /* ============ EMPTY / SKELETON ============ */
-  .empty, .skeleton-wrap{
-    grid-column:1/-1; text-align:center;
-    padding:70px 20px; color:var(--muted);
-    border:1.5px dashed var(--border); border-radius:var(--radius-xl);
-    font-size:14px; background:var(--panel);
-  }
-  .empty svg{width:48px; height:48px; color:var(--muted-soft); margin-bottom:12px;}
-  .empty strong{color:var(--text); display:block; font-family:'Space Grotesk',sans-serif; font-size:18px; margin-bottom:6px; font-weight:600;}
-  .empty .hint{font-size:12px; color:var(--muted-soft); margin-top:8px;}
+  footer{margin-top:32px; padding-top:16px; border-top:1px solid var(--border); color:var(--muted); font-size:12px; text-align:right;}
+  footer.error{color:var(--red-ink);}
 
-  .skeleton{
-    background: linear-gradient(90deg, var(--bg-alt) 0%, var(--panel-hover) 50%, var(--bg-alt) 100%);
-    background-size: 200% 100%;
-    animation: shimmer 1.4s infinite;
-    border-radius:var(--radius-lg);
-    border:1px solid var(--border);
-    padding:18px;
-    display:flex; flex-direction:column; gap:12px;
-  }
-  .skeleton-line{height:12px; border-radius:6px; background:var(--border); opacity:0.5;}
-  .skeleton-line.sm{width:40%; height:10px;}
-  .skeleton-line.md{width:80%;}
-
-  /* ============ FOOTER ============ */
-  footer{
-    margin-top:32px; padding-top:16px;
-    border-top:1px solid var(--border);
-    color:var(--muted); font-size:12px;
-    display:flex; justify-content:space-between; align-items:center;
-    flex-wrap:wrap; gap:12px;
-  }
-  footer .status{display:flex; align-items:center; gap:8px;}
-  footer .dot{width:7px; height:7px; border-radius:50%; background:var(--muted-soft);}
-  footer .dot.online{background:var(--green); box-shadow:0 0 8px var(--green);}
-  footer .dot.offline{background:var(--red);}
-  footer .dot.syncing{background:var(--amber); animation: pulse 1.2s infinite;}
-
-  /* ============ OVERLAY / MODAL ============ */
   .overlay{
-    position:fixed; inset:0; background:rgba(60,50,30,0.35);
-    backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
-    display:none; align-items:center; justify-content:center;
-    z-index:50; padding:20px;
-    animation: fadeIn .2s var(--ease);
+    position:fixed; inset:0; background:rgba(60,50,30,0.25); backdrop-filter:blur(3px);
+    display:none; align-items:center; justify-content:center; z-index:50; padding:20px;
   }
   .overlay.show{display:flex;}
   .modal{
-    background:var(--panel); border:1px solid var(--border);
-    border-radius:var(--radius-xl);
-    width:100%; max-width:480px; padding:28px;
-    box-shadow: var(--shadow-lg);
-    animation: modalIn .25s var(--ease);
-    max-height: 90vh; overflow-y:auto;
+    background:var(--panel); border:1px solid var(--border); border-radius:18px;
+    width:100%; max-width:420px; padding:26px;
+    box-shadow: 0 24px 60px rgba(60,50,20,0.18);
   }
-  .modal h2{
-    font-family:'Space Grotesk', sans-serif; margin:0 0 20px;
-    font-size:19px; color:var(--text); font-weight:600;
-    display:flex; align-items:center; gap:10px;
-  }
-  .modal h2 svg{width:20px; height:20px; color:var(--amber-ink);}
+  .modal h2{font-family:'Space Grotesk', sans-serif; margin:0 0 18px; font-size:19px; color:#2a2924;}
   .field{margin-bottom:14px;}
-  .field label{
-    display:block; font-size:12px; color:var(--muted);
-    margin-bottom:6px; font-weight:500;
+  .field label{display:block; font-size:12px; color:var(--muted); margin-bottom:6px;}
+  .field input, .field textarea{
+    width:100%; background:#fbf9f4; border:1px solid var(--border); border-radius:10px;
+    padding:10px 12px; color:var(--text); font-size:14px; font-family:'Inter', sans-serif;
   }
-  .field input, .field textarea, .field select{
-    width:100%; background:var(--bg); border:1px solid var(--border);
-    border-radius:var(--radius); padding:10px 12px;
-    color:var(--text); font-size:14px; font-family:inherit;
-    transition: all .15s var(--ease);
-  }
-  .field input:focus, .field textarea:focus, .field select:focus{
-    outline:none; border-color:var(--amber);
-    box-shadow:0 0 0 3px var(--amber-soft);
-  }
-  .field textarea{resize:vertical; min-height:64px;}
-  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
-  .checkbox-field{
-    display:flex; align-items:center; gap:8px;
-    font-size:13px; color:var(--text-soft);
-    cursor:pointer; user-select:none;
-  }
-  .checkbox-field input{width:auto; margin:0;}
-  .modal-actions{
-    display:flex; justify-content:flex-end; gap:10px;
-    margin-top:22px; padding-top:18px; border-top:1px solid var(--border);
-  }
-  .modal.confirm{text-align:center; max-width:400px;}
-  .modal.confirm h2{justify-content:center;}
-  .modal.confirm .icon-warn{
-    width:56px; height:56px; border-radius:50%;
-    background:var(--red-soft); color:var(--red-ink);
-    display:flex; align-items:center; justify-content:center;
-    margin:0 auto 14px;
-  }
-  .modal.confirm .icon-warn svg{width:26px; height:26px;}
-  .modal.confirm p{margin:0 0 4px; color:var(--text-soft);}
-  .modal.confirm .sub-note{font-size:12px; color:var(--muted);}
-  .modal.confirm .modal-actions{justify-content:center; border:none; padding-top:6px;}
+  .field input:focus, .field textarea:focus{outline:none; border-color:var(--amber);}
+  .field textarea{resize:vertical; min-height:60px;}
+  .modal-actions{display:flex; justify-content:flex-end; gap:10px; margin-top:20px;}
 
-  /* ============ TOASTS ============ */
-  .toasts{
-    position:fixed; bottom:24px; right:24px;
-    display:flex; flex-direction:column; gap:8px;
-    z-index:100; pointer-events:none;
-    max-width:calc(100vw - 48px);
-  }
-  .toast{
-    pointer-events:auto;
-    background:var(--panel); border:1px solid var(--border);
-    border-radius:var(--radius); padding:12px 16px;
-    box-shadow:var(--shadow-md);
-    font-size:13px; color:var(--text);
-    display:flex; align-items:center; gap:10px;
-    min-width:260px; max-width:360px;
-    animation: toastIn .25s var(--ease);
-    border-left:3px solid var(--muted);
-  }
-  .toast.success{border-left-color:var(--green);}
-  .toast.error{border-left-color:var(--red);}
-  .toast.info{border-left-color:var(--blue);}
-  .toast.warn{border-left-color:var(--amber);}
-  .toast svg{width:16px; height:16px; flex-shrink:0;}
-  .toast.success svg{color:var(--green-ink);}
-  .toast.error svg{color:var(--red-ink);}
-  .toast.info svg{color:var(--blue-ink);}
-  .toast.warn svg{color:var(--amber-ink);}
-  .toast .close{
-    margin-left:auto; padding:2px; color:var(--muted);
-    cursor:pointer; border:none; background:none;
-    box-shadow:none; width:20px; height:20px;
-    border-radius:4px;
-  }
-  .toast .close:hover{background:var(--panel-hover); color:var(--text);}
-  .toast.leaving{animation: toastOut .2s var(--ease) forwards;}
-
-  /* ============ ANIMATIONS ============ */
-  @keyframes cardIn{
-    from{opacity:0; transform:translateY(8px);}
-    to{opacity:1; transform:translateY(0);}
-  }
-  @keyframes shimmer{
-    0%{background-position:200% 0;}
-    100%{background-position:-200% 0;}
-  }
-  @keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
-  @keyframes modalIn{
-    from{opacity:0; transform:scale(0.96) translateY(8px);}
-    to{opacity:1; transform:scale(1) translateY(0);}
-  }
-  @keyframes toastIn{
-    from{opacity:0; transform:translateX(20px);}
-    to{opacity:1; transform:translateX(0);}
-  }
-  @keyframes toastOut{
-    to{opacity:0; transform:translateX(20px);}
-  }
-  @keyframes pulse{
-    0%,100%{opacity:1;}
-    50%{opacity:0.4;}
-  }
-  @keyframes spin{
-    to{transform:rotate(360deg);}
-  }
-  .spin{animation:spin 0.8s linear infinite;}
-
-  /* ============ RESPONSIVE ============ */
-  @media (max-width:720px){
-    h1{font-size:22px;}
-    .wrap{padding:20px 16px 60px;}
-    .brand-logo{width:38px; height:38px;}
-    .toolbar{gap:8px;}
-    .search-wrap{min-width:100%;}
-    .toolbar-group{flex:1; justify-content:center;}
-    .grid{grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:10px;}
-    .card{padding:12px 14px;}
-    .card-actions{opacity:1;}
-    .toasts{bottom:12px; right:12px; left:12px; max-width:none;}
-    .toast{min-width:0;}
-    footer{font-size:11px;}
-  }
-  @media (max-width:420px){
-    .header-actions{width:100%; justify-content:flex-end;}
-    .btn .kbd{display:none;}
+  @media (max-width:600px){
+    h1{font-size:24px;}
+    .wrap{padding:24px 16px 60px;}
   }
   @media (prefers-reduced-motion: reduce){
-    *, *::before, *::after{
-      animation-duration:0.01ms !important;
-      animation-iteration-count:1 !important;
-      transition-duration:0.01ms !important;
-    }
+    *{transition:none !important;}
   }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar{width:10px; height:10px;}
-  ::-webkit-scrollbar-track{background:transparent;}
-  ::-webkit-scrollbar-thumb{background:var(--border-strong); border-radius:10px; border:2px solid var(--bg);}
-  ::-webkit-scrollbar-thumb:hover{background:var(--muted-soft);}
 </style>
 </head>
 <body>
 
 <div class="wrap">
-
   <header>
-    <div class="brand">
-      <div class="brand-logo" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h13l5 5v5h-2"/><path d="M7 17h9"/><circle cx="7" cy="17" r="2"/><circle cx="16" cy="17" r="2"/></svg>
-      </div>
-      <div>
-        <h1>Méthodes Logistiques</h1>
-        <div class="sub">
-          Boîte à outils <span class="count" id="toolCount">0 outil</span>
-        </div>
-      </div>
+    <div>
+      <h1>Méthodes Logistiques — Outils</h1>
+      <div class="sub">Tous les outils du service, réunis au même endroit.</div>
     </div>
-
-    <div class="header-actions">
-      <button class="btn-icon btn-ghost" id="refreshBtn" title="Rafraîchir depuis GitHub">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg>
-      </button>
-      <button class="btn-icon btn-ghost" id="exportBtn" title="Exporter les données">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      </button>
-      <button class="btn-icon btn-ghost" id="importBtn" title="Importer des données">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-      </button>
-      <input type="file" id="importFile" accept=".json" style="display:none">
-      <button class="btn-icon btn-ghost" id="settingsBtn" title="Paramètres">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-      </button>
-      <button class="btn-icon btn-ghost" id="themeBtn" title="Thème">
-        <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
-      <button class="btn-primary" id="addBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        Nouvel outil
-        <span class="kbd">N</span>
-      </button>
-    </div>
+    <button class="btn-primary" id="addBtn">+ Ajouter un outil</button>
   </header>
 
-  <div class="toolbar">
-    <div class="search-wrap">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" class="search" id="searchInput" placeholder="Rechercher un outil, une catégorie, un tag…">
-      <span class="search-kbd">/</span>
-    </div>
-    <div class="toolbar-group" role="tablist" aria-label="Vue">
-      <button class="active" id="viewGrid" title="Vue grille" aria-label="Vue grille">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-      </button>
-      <button id="viewList" title="Vue liste" aria-label="Vue liste">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-      </button>
-    </div>
-    <div class="toolbar-group" role="group" aria-label="Tri">
-      <button id="sortAlpha" class="active" title="Trier par nom">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h13"/><path d="M3 12h13"/><path d="M3 18h13"/><path d="M19 8l3 3-3 3"/></svg>
-        A-Z
-      </button>
-    </div>
-  </div>
-
-  <div class="filters" id="filters"></div>
+  <input type="text" class="search" id="searchInput" placeholder="Rechercher un outil...">
 
   <div class="grid" id="grid"></div>
 
-  <footer>
-    <div class="status">
-      <span class="dot" id="statusDot"></span>
-      <span id="statusText">Chargement…</span>
-    </div>
-    <div>Conçu par Méthodes Logistiques — <span id="lastSync">—</span></div>
-  </footer>
+  <footer id="footerNote">Données synchronisées avec GitHub.</footer>
 </div>
 
-<!-- Modal édition -->
 <div class="overlay" id="overlay">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <h2 id="modalTitle">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-      <span id="modalTitleText">Ajouter un outil</span>
-    </h2>
+  <div class="modal">
+    <h2 id="modalTitle">Ajouter un outil</h2>
     <form id="cardForm">
       <div class="field">
-        <label for="fName">Nom de l'outil *</label>
-        <input type="text" id="fName" required placeholder="Ex: Pilotage M00" maxlength="100" autocomplete="off">
+        <label>Nom de l'outil</label>
+        <input type="text" id="fName" required placeholder="Ex: Pilotage M00">
       </div>
       <div class="field">
-        <label for="fUrl">Lien (URL)</label>
-        <input type="text" id="fUrl" placeholder="https://…" autocomplete="off">
+        <label>Lien (URL)</label>
+        <input type="text" id="fUrl" required placeholder="https://...">
       </div>
       <div class="field">
-        <label for="fDesc">Description</label>
-        <textarea id="fDesc" placeholder="À quoi sert cet outil ? Qui l'utilise ?" maxlength="300"></textarea>
+        <label>Description courte</label>
+        <textarea id="fDesc" placeholder="Ex: Suivi de production, tableau par jour"></textarea>
       </div>
-      <div class="field-row">
-        <div class="field" style="margin-bottom:0">
-          <label for="fCategory">Catégorie</label>
-          <select id="fCategory">
-            <option value="autre">Autre</option>
-            <option value="pilotage">Pilotage</option>
-            <option value="conformite">Conformité</option>
-            <option value="analyse">Analyse</option>
-            <option value="qualite">Qualité</option>
-          </select>
-        </div>
-        <div class="field" style="margin-bottom:0">
-          <label for="fTags">Tags (virgule)</label>
-          <input type="text" id="fTags" placeholder="excel, daily, m00" autocomplete="off">
-        </div>
-      </div>
-      <label class="checkbox-field" style="margin-top:10px;">
-        <input type="checkbox" id="fPinned">
-        <span>Épingler en haut de la liste</span>
-      </label>
       <div class="modal-actions">
         <button type="button" class="btn-ghost" id="cancelBtn">Annuler</button>
-        <button type="submit" class="btn-primary" id="saveBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          Enregistrer
-        </button>
+        <button type="submit" class="btn-primary" id="saveBtn">Enregistrer</button>
       </div>
     </form>
   </div>
 </div>
 
-<!-- Modal confirmation -->
-<div class="overlay" id="confirmOverlay">
-  <div class="modal confirm" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle">
-    <div class="icon-warn">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-    </div>
-    <h2 id="confirmTitle">Confirmer l'action</h2>
-    <p id="confirmText">Êtes-vous sûr ?</p>
-    <p class="sub-note" id="confirmNote"></p>
-    <div class="modal-actions">
-      <button type="button" class="btn-ghost" id="confirmCancel">Annuler</button>
-      <button type="button" class="btn-danger" id="confirmOk">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/></svg>
-        Supprimer
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- Modal paramètres -->
-<div class="overlay" id="settingsOverlay">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
-    <h2 id="settingsTitle">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-      Paramètres
-    </h2>
-    <div class="field">
-      <label>Token GitHub</label>
-      <div style="font-size:12px; color:var(--muted); margin-bottom:8px;">
-        Le token est stocké uniquement dans votre navigateur (localStorage).
-      </div>
-      <div id="tokenStatus" style="font-size:13px; padding:10px 12px; background:var(--bg); border-radius:8px; border:1px solid var(--border);"></div>
-    </div>
-    <div class="modal-actions">
-      <button type="button" class="btn-ghost" id="settingsClose">Fermer</button>
-      <button type="button" class="btn-danger" id="tokenLogout">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        Déconnecter le token
-      </button>
-    </div>
-  </div>
-</div>
-
-<div class="toasts" id="toasts" aria-live="polite"></div>
-
 <script>
 /* ================================================================
-   CONFIGURATION GITHUB
+   CONFIGURATION GITHUB — à remplir une seule fois par toi.
+   GH_OWNER = ton nom d'utilisateur / organisation GitHub
+   GH_REPO  = juste le NOM du dépôt (celui après github.io/ dans ton URL Pages),
+              PAS l'URL complète.
    ================================================================ */
 const GH_OWNER  = 'methodelogistiquesncf-boop';
-const GH_REPO   = 'Outils_Methodes_Logitiques';
+const GH_REPO   = 'Outils_Methodes_Logitiques'; // vérifie bien la casse exacte sur GitHub
 const GH_BRANCH = 'main';
 const GH_PATH   = 'data.json';
 /* ================================================================ */
 
 const TOKEN_KEY = 'logi_portfolio_gh_token_v1';
-const CACHE_KEY = 'logi_portfolio_cache_v1';
-const PREFS_KEY = 'logi_portfolio_prefs_v1';
+const LOCAL_CACHE_KEY = 'logi_portfolio_cache_v1';
 
-const ICONS = {
-  pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1 1 1 0 0 1 1 1z"/></svg>',
-  edit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
-  del: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>',
-  link: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
-  success: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
-  error: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
-  info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
-  warn: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
-  close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
-  sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>',
-  moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
-};
-
-const CATEGORY_LABELS = {
-  autre: 'Autre', pilotage: 'Pilotage', conformite: 'Conformité',
-  analyse: 'Analyse', qualite: 'Qualité'
-};
+function makeId(){ return 'c'+Math.random().toString(36).slice(2,10); }
 
 const fallbackData = [
-  { id: makeId(), name:'Pilotage M00', url:'', desc:'Suivi de production, tableau par jour.', category:'pilotage', tags:['m00','daily'], pinned:true },
-  { id: makeId(), name:'Complet Conforme', url:'', desc:'Contrôle de conformité des kits.', category:'conformite', tags:['qc'] },
-  { id: makeId(), name:'Analyse Excel F-Activités', url:'', desc:'Analyse des fichiers F-Activités et A-Delta.', category:'analyse', tags:['excel'] },
+  { id: makeId(), name:'Pilotage M00', url:'', desc:'Suivi de production, tableau par jour.' },
+  { id: makeId(), name:'Complet Conforme', url:'', desc:'Contrôle de conformité des kits.' },
+  { id: makeId(), name:'Analyse Excel F-Activités', url:'', desc:'Analyse des fichiers F-Activités et A-Delta.' },
 ];
 
-/* ================================================================
-   STATE
-   ================================================================ */
-const state = {
-  cards: [],
-  search: '',
-  filterCat: null,
-  editingId: null,
-  currentSha: null,
-  view: 'grid',
-  sort: 'alpha',
-  isSaving: false,
-  pendingSave: false,
-  ghToken: null,
-  isOnline: navigator.onLine,
-  lastSync: null,
-  loading: true,
-};
+let cards = [];
+let search = '';
+let editingId = null;
+let currentSha = null;
+let ghToken = null;
+let isSaving = false;
+let pendingSave = false;
 
-/* ================================================================
-   UTILS
-   ================================================================ */
-function makeId(){ return 'c'+Math.random().toString(36).slice(2,11); }
-function b64EncodeUnicode(s){ return btoa(encodeURIComponent(s).replace(/%([0-9A-F]{2})/g,(m,p1)=>String.fromCharCode('0x'+p1))); }
-function b64DecodeUnicode(s){ return decodeURIComponent(atob(s).split('').map(c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')); }
-function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-function normalizeCard(c){
-  return {
-    id: c.id || makeId(),
-    name: c.name || '',
-    url: c.url || '',
-    desc: c.desc || '',
-    category: c.category || 'autre',
-    tags: Array.isArray(c.tags) ? c.tags : (c.tags ? String(c.tags).split(',').map(t=>t.trim()).filter(Boolean) : []),
-    pinned: !!c.pinned,
-  };
+function b64EncodeUnicode(str){
+  return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (m,p1)=>String.fromCharCode('0x'+p1)));
 }
-function savePrefs(){
-  try{ localStorage.setItem(PREFS_KEY, JSON.stringify({
-    view:state.view, sort:state.sort,
-    theme: document.documentElement.getAttribute('data-theme')
-  })); }catch(e){}
+function b64DecodeUnicode(str){
+  return decodeURIComponent(atob(str).split('').map(c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join(''));
 }
-function loadPrefs(){
-  try{
-    const p = JSON.parse(localStorage.getItem(PREFS_KEY) || '{}');
-    if(p.view) state.view = p.view;
-    if(p.sort) state.sort = p.sort;
-    if(p.theme) document.documentElement.setAttribute('data-theme', p.theme);
-    else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){
-      document.documentElement.setAttribute('data-theme', 'dark');
-    }
-  }catch(e){}
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
 }
 
-/* ================================================================
-   TOASTS
-   ================================================================ */
-function toast(msg, type='info', duration=3500){
-  const el = document.createElement('div');
-  el.className = 'toast '+type;
-  el.innerHTML = `${ICONS[type] || ICONS.info}<span>${escapeHtml(msg)}</span><button class="close" aria-label="Fermer">${ICONS.close}</button>`;
-  const t = document.getElementById('toasts');
-  t.appendChild(el);
-  const close = () => {
-    el.classList.add('leaving');
-    setTimeout(()=>el.remove(), 200);
-  };
-  el.querySelector('.close').onclick = close;
-  setTimeout(close, duration);
+function setFooter(text, isError){
+  const el = document.getElementById('footerNote');
+  el.textContent = text;
+  el.className = isError ? 'error' : '';
 }
 
-/* ================================================================
-   CONFIRM MODAL
-   ================================================================ */
-let confirmCb = null;
-function confirmDialog({ title, text, note, okText='Supprimer', danger=true }){
-  return new Promise(resolve=>{
-    document.getElementById('confirmTitle').textContent = title;
-    document.getElementById('confirmText').textContent = text;
-    document.getElementById('confirmNote').textContent = note || '';
-    const ok = document.getElementById('confirmOk');
-    ok.textContent = okText;
-    ok.className = danger ? 'btn-danger' : 'btn-primary';
-    const overlay = document.getElementById('confirmOverlay');
-    overlay.classList.add('show');
-    const close = (v)=>{ overlay.classList.remove('show'); resolve(v); };
-    confirmCb = close;
-    document.getElementById('confirmCancel').onclick = ()=>close(false);
-    document.getElementById('confirmOk').onclick = ()=>close(true);
-    overlay.onclick = (e)=>{ if(e.target.id==='confirmOverlay') close(false); };
-  });
-}
-
-/* ================================================================
-   STATUS
-   ================================================================ */
-function setStatus(text, mode='online'){
-  const dot = document.getElementById('statusDot');
-  const txt = document.getElementById('statusText');
-  dot.className = 'dot ' + mode;
-  txt.textContent = text;
-}
-function updateLastSync(){
-  const el = document.getElementById('lastSync');
-  if(state.lastSync){
-    const d = new Date(state.lastSync);
-    el.textContent = 'Dernière sync : '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
-  } else el.textContent = 'jamais synchronisé';
-}
-function updateCount(){
-  const el = document.getElementById('toolCount');
-  const n = state.cards.length;
-  el.textContent = n + (n>1?' outils':(n===1?' outil':' outil'));
-}
-
-/* ================================================================
-   THEME
-   ================================================================ */
-function updateThemeIcon(){
-  const theme = document.documentElement.getAttribute('data-theme');
-  document.getElementById('themeIcon').outerHTML = theme==='dark' ? ICONS.sun : ICONS.moon;
-  const newIcon = document.querySelector('#themeBtn svg');
-  if(newIcon) newIcon.id = 'themeIcon';
-}
-
-/* ================================================================
-   GITHUB API
-   ================================================================ */
+// Le token n'est demandé que quand on en a vraiment besoin (sauvegarde), jamais pour lire.
 function getToken(){
-  if(state.ghToken) return state.ghToken;
-  try{
-    const s = localStorage.getItem(TOKEN_KEY);
-    if(s){ state.ghToken = s; return s; }
-  }catch(e){}
+  if(ghToken) return ghToken;
+  let stored = null;
+  try{ stored = localStorage.getItem(TOKEN_KEY); }catch(e){}
+  if(stored){ ghToken = stored; return ghToken; }
   const entered = prompt(
-    "Connexion GitHub :\nColle ton token d'accès personnel (scope: repo, accès en écriture au dépôt)."
+    "Connexion GitHub (une seule fois) :\nColle ton token d'accès personnel (Contents: Read & write sur ce dépôt)."
   );
   if(entered && entered.trim()){
-    state.ghToken = entered.trim();
-    try{ localStorage.setItem(TOKEN_KEY, state.ghToken); }catch(e){}
-    toast('Token enregistré localement', 'success');
+    ghToken = entered.trim();
+    try{ localStorage.setItem(TOKEN_KEY, ghToken); }catch(e){}
   }
-  return state.ghToken;
-}
-function logoutToken(){
-  try{ localStorage.removeItem(TOKEN_KEY); }catch(e){}
-  state.ghToken = null;
-  toast('Token supprimé de ce navigateur', 'info');
-  updateTokenStatus();
-}
-function updateTokenStatus(){
-  const el = document.getElementById('tokenStatus');
-  if(!el) return;
-  const has = !!state.ghToken || !!localStorage.getItem(TOKEN_KEY);
-  el.innerHTML = has
-    ? `<span style="color:var(--green-ink); display:inline-flex; align-items:center; gap:6px;">${ICONS.success} Token configuré localement</span>`
-    : `<span style="color:var(--muted);">Aucun token enregistré. Il sera demandé à la première sauvegarde.</span>`;
+  return ghToken;
 }
 
-async function ghGetPublic(){
+// ---------- LECTURE : publique, aucun token requis (le dépôt est public) ----------
+async function githubGetFilePublic(){
   const res = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${encodeURIComponent(GH_PATH)}?ref=${encodeURIComponent(GH_BRANCH)}`, {
     headers: { 'Accept': 'application/vnd.github+json' }
   });
   if(!res.ok){
-    if(res.status === 404) throw new Error('Fichier data.json introuvable sur GitHub');
-    throw new Error(`GitHub GET ${res.status}`);
+    const body = await res.text().catch(()=> '');
+    throw new Error(`GET ${res.status}${body ? ' — '+body.slice(0,150) : ''}`);
   }
   const data = await res.json();
-  return { json: JSON.parse(b64DecodeUnicode(data.content)), sha: data.sha };
+  const json = JSON.parse(b64DecodeUnicode(data.content));
+  return { json, sha: data.sha };
 }
-async function ghGetAuth(token){
+
+// ---------- LECTURE avec token : utilisée juste avant d'écrire, pour avoir le sha à jour ----------
+async function githubGetFileAuth(token){
   const res = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${encodeURIComponent(GH_PATH)}?ref=${encodeURIComponent(GH_BRANCH)}`, {
     headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github+json' }
   });
   if(!res.ok){
-    if(res.status===401){ try{localStorage.removeItem(TOKEN_KEY);}catch(e){} state.ghToken=null; }
-    throw new Error(`GitHub GET ${res.status}`);
+    if(res.status === 401){ try{ localStorage.removeItem(TOKEN_KEY); }catch(e){} ghToken = null; }
+    const body = await res.text().catch(()=> '');
+    throw new Error(`GET ${res.status}${body ? ' — '+body.slice(0,150) : ''}`);
   }
   const data = await res.json();
   return { sha: data.sha };
 }
-async function ghPut(obj, sha, message){
+
+// ---------- ÉCRITURE : nécessite un token ----------
+async function githubPutFile(obj, sha, message){
   const token = getToken();
   if(!token) throw new Error('Token manquant');
-  const body = { message: message || 'Mise à jour', content: b64EncodeUnicode(JSON.stringify(obj, null, 2)), branch: GH_BRANCH };
+  const body = {
+    message: message || 'Mise à jour du portfolio',
+    content: b64EncodeUnicode(JSON.stringify(obj, null, 2)),
+    branch: GH_BRANCH
+  };
   if(sha) body.sha = sha;
   const res = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${encodeURIComponent(GH_PATH)}`, {
     method:'PUT',
@@ -892,374 +294,147 @@ async function ghPut(obj, sha, message){
     body: JSON.stringify(body)
   });
   if(!res.ok){
-    if(res.status===401){ try{localStorage.removeItem(TOKEN_KEY);}catch(e){} state.ghToken=null; }
-    const err = await res.json().catch(()=>({}));
-    throw new Error(err.message || `GitHub PUT ${res.status}`);
+    if(res.status === 401){ try{ localStorage.removeItem(TOKEN_KEY); }catch(e){} ghToken = null; }
+    const errBody = await res.json().catch(()=>({}));
+    throw new Error(errBody.message || `PUT ${res.status}`);
   }
   return await res.json();
 }
 
-async function loadFromGithub(silent=false){
-  if(!silent) setStatus('Chargement…', 'syncing');
+async function loadFromGithub(){
   try{
-    const {json, sha} = await ghGetPublic();
-    const arr = Array.isArray(json) ? json : (json.cards || []);
-    state.cards = arr.map(normalizeCard);
-    state.currentSha = sha;
-    state.lastSync = Date.now();
-    cache();
-    render();
-    setStatus('Connecté à GitHub', 'online');
-    updateLastSync();
-    if(!silent) toast('Données chargées depuis GitHub', 'success', 2000);
+    const {json, sha} = await githubGetFilePublic();
+    cards = Array.isArray(json) ? json : (json.cards || []);
+    currentSha = sha;
+    cacheLocally();
+    setFooter('Crée par Méthodes Logistiques.');
   }catch(e){
     console.error(e);
-    const raw = localStorage.getItem(CACHE_KEY);
-    state.cards = raw ? JSON.parse(raw).map(normalizeCard) : fallbackData.map(normalizeCard);
-    setStatus('Hors ligne — cache local', 'offline');
-    if(!silent) toast('Chargement depuis le cache local', 'warn');
-  } finally {
-    state.loading = false;
-    updateCount();
+    const raw = localStorage.getItem(LOCAL_CACHE_KEY);
+    cards = raw ? JSON.parse(raw) : fallbackData;
+    setFooter("Impossible de charger data.json depuis GitHub — affichage local.", true);
   }
+  render();
 }
 
-function cache(){
-  try{ localStorage.setItem(CACHE_KEY, JSON.stringify(state.cards)); }catch(e){}
+function cacheLocally(){
+  try{ localStorage.setItem(LOCAL_CACHE_KEY, JSON.stringify(cards)); }catch(e){}
 }
 
 async function persist(message){
-  cache();
-  if(state.isSaving){ state.pendingSave = true; return; }
-  state.isSaving = true;
-  setStatus('Synchronisation…', 'syncing');
+  cacheLocally();
+  if(isSaving){ pendingSave = true; return; }
+  isSaving = true;
+  setFooter('Enregistrement…');
   try{
     const token = getToken();
-    if(!token) throw new Error('Token requis');
-    const {sha} = await ghGetAuth(token).catch(()=>({sha: state.currentSha}));
-    const result = await ghPut(state.cards, sha || state.currentSha, message);
-    state.currentSha = result.content.sha;
-    state.lastSync = Date.now();
-    setStatus('Connecté à GitHub', 'online');
-    updateLastSync();
-    toast('Synchronisé avec GitHub', 'success', 2000);
+    if(!token) throw new Error('Token requis pour enregistrer');
+    const {sha} = await githubGetFileAuth(token).catch(()=>({sha: currentSha}));
+    const result = await githubPutFile(cards, sha || currentSha, message);
+    currentSha = result.content.sha;
+    setFooter('Données synchronisées avec GitHub.');
   }catch(e){
     console.error(e);
-    setStatus('Erreur de synchronisation', 'offline');
-    toast(e.message || 'Échec de la synchronisation', 'error');
+    setFooter("Échec de l'enregistrement sur GitHub : "+e.message, true);
   }finally{
-    state.isSaving = false;
-    if(state.pendingSave){ state.pendingSave=false; persist(message); }
+    isSaving = false;
+    if(pendingSave){ pendingSave = false; persist('Mise à jour du portfolio'); }
   }
 }
 
-/* ================================================================
-   RENDER
-   ================================================================ */
 function render(){
   const grid = document.getElementById('grid');
-  grid.className = 'grid' + (state.view==='list' ? ' list-view' : '');
+  const filtered = cards.filter(c =>
+    !search || (c.name+' '+(c.desc||'')).toLowerCase().includes(search.toLowerCase())
+  );
 
-  // Filters
-  const cats = {};
-  state.cards.forEach(c=>{ cats[c.category||'autre'] = (cats[c.category||'autre']||0)+1; });
-  const filterWrap = document.getElementById('filters');
-  const filterHtml = ['all', ...Object.keys(cats)].map(c=>{
-    if(c==='all'){
-      return `<button class="filter-chip ${!state.filterCat?'active':''}" data-cat="all">Tous <span class="count">${state.cards.length}</span></button>`;
-    }
-    return `<button class="filter-chip ${state.filterCat===c?'active':''}" data-cat="${c}">${CATEGORY_LABELS[c]||c} <span class="count">${cats[c]}</span></button>`;
-  }).join('');
-  filterWrap.innerHTML = filterHtml + (state.filterCat ? '<button class="filter-chip clear" data-cat="all">✕ Effacer</button>' : '');
-  filterWrap.querySelectorAll('[data-cat]').forEach(b=>{
-    b.onclick = ()=>{
-      state.filterCat = b.dataset.cat==='all' ? null : b.dataset.cat;
-      render();
-    };
-  });
-
-  // Sort + filter
-  let list = [...state.cards];
-  if(state.filterCat) list = list.filter(c=>c.category===state.filterCat);
-  if(state.search){
-    const q = state.search.toLowerCase();
-    list = list.filter(c =>
-      (c.name||'').toLowerCase().includes(q) ||
-      (c.desc||'').toLowerCase().includes(q) ||
-      (c.tags||[]).some(t=>t.toLowerCase().includes(q)) ||
-      (CATEGORY_LABELS[c.category]||'').toLowerCase().includes(q)
-    );
-  }
-  list.sort((a,b)=>{
-    if(a.pinned && !b.pinned) return -1;
-    if(!a.pinned && b.pinned) return 1;
-    return (a.name||'').localeCompare(b.name||'', 'fr', {sensitivity:'base'});
-  });
-
-  if(state.loading){
-    grid.innerHTML = Array(6).fill(0).map(()=>`
-      <div class="skeleton">
-        <div class="skeleton-line md"></div>
-        <div class="skeleton-line sm"></div>
-      </div>`).join('');
+  if(filtered.length===0){
+    grid.innerHTML = `<div class="empty"><strong>Rien à afficher ici</strong>Ajoute un outil ou change ta recherche.</div>`;
     return;
   }
 
-  if(list.length===0){
-    grid.innerHTML = `
-      <div class="empty">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <strong>Aucun outil à afficher</strong>
-        ${state.cards.length===0 ? 'Cliquez sur « Nouvel outil » pour commencer.' : 'Essayez de modifier vos filtres ou votre recherche.'}
-        <div class="hint">${state.cards.length} outil${state.cards.length>1?'s':''} au total</div>
-      </div>`;
-    return;
-  }
-
-  grid.innerHTML = list.map((c,i)=>{
-    const hasUrl = c.url && c.url.trim();
-    const tag = hasUrl ? 'a' : 'div';
-    const href = hasUrl ? `href="${escapeHtml(c.url.trim())}" target="_blank" rel="noopener noreferrer"` : '';
-    const tagsHtml = (c.tags||[]).slice(0,3).map(t=>`<span class="tag">#${escapeHtml(t)}</span>`).join('');
+  grid.innerHTML = filtered.map(c=>{
+    const urlSafe = c.url && c.url.trim() ? c.url.trim() : null;
+    const tag = urlSafe ? 'a' : 'div';
+    const hrefAttrs = urlSafe ? `href="${escapeHtml(urlSafe)}" target="_blank" rel="noopener"` : '';
     return `
-    <${tag} class="card ${hasUrl?'':'no-link'} ${c.pinned?'pinned':''}" ${href}
-      data-id="${c.id}"
-      style="animation-delay:${Math.min(i*30, 400)}ms"
-      title="${hasUrl ? 'Ouvrir '+escapeHtml(c.name) : 'Pas de lien renseigné'}">
-      <div class="card-body">
-        <div class="card-meta">
-          <span class="tag cat-${escapeHtml(c.category||'autre')}">${CATEGORY_LABELS[c.category]||'Autre'}</span>
-          ${tagsHtml}
-          ${c.pinned ? `<span class="pin-indicator">${ICONS.pin} Épinglé</span>` : ''}
-        </div>
-        <h3>${escapeHtml(c.name)}</h3>
-        ${c.desc ? `<p>${escapeHtml(c.desc)}</p>` : ''}
-      </div>
+    <${tag} class="card ${urlSafe?'':'no-link'}" ${hrefAttrs} title="${urlSafe ? 'Ouvrir '+escapeHtml(c.name) : 'Pas de lien renseigné'}">
+      <h3>${escapeHtml(c.name)}</h3>
+      <p>${escapeHtml(c.desc||'')}</p>
       <div class="card-actions">
-        <button type="button" class="icon-btn pin ${c.pinned?'pinned':''}" data-action="pin" data-id="${c.id}" title="${c.pinned?'Désépingler':'Épingler'}">${ICONS.pin}</button>
-        <button type="button" class="icon-btn" data-action="edit" data-id="${c.id}" title="Modifier">${ICONS.edit}</button>
-        <button type="button" class="icon-btn del" data-action="del" data-id="${c.id}" title="Supprimer">${ICONS.del}</button>
+        <button type="button" class="icon-btn" title="Modifier" data-edit="${c.id}">✎</button>
+        <button type="button" class="icon-btn del" title="Supprimer" data-del="${c.id}">✕</button>
       </div>
     </${tag}>`;
   }).join('');
 
-  grid.querySelectorAll('[data-action]').forEach(btn=>{
-    btn.addEventListener('click', async (e)=>{
+  grid.querySelectorAll('[data-edit]').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
       e.preventDefault(); e.stopPropagation();
-      const id = btn.dataset.id;
-      const card = state.cards.find(c=>c.id===id);
-      if(!card) return;
-      if(btn.dataset.action==='edit') openModal(id);
-      else if(btn.dataset.action==='pin'){
-        card.pinned = !card.pinned;
+      openModal(btn.dataset.edit);
+    });
+  });
+  grid.querySelectorAll('[data-del]').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      e.preventDefault(); e.stopPropagation();
+      const card = cards.find(c=>c.id===btn.dataset.del);
+      if(confirm(`Supprimer "${card ? card.name : ''}" ?`)){
+        cards = cards.filter(c=>c.id!==btn.dataset.del);
         render();
-        persist(card.pinned ? `Épinglé : ${card.name}` : `Désépinglé : ${card.name}`);
-      }
-      else if(btn.dataset.action==='del'){
-        const ok = await confirmDialog({
-          title: 'Supprimer cet outil ?',
-          text: `« ${card.name} » sera retiré de la liste.`,
-          note: 'Cette action sera synchronisée avec GitHub.',
-          okText: 'Supprimer'
-        });
-        if(ok){
-          state.cards = state.cards.filter(c=>c.id!==id);
-          render();
-          updateCount();
-          persist(`Supprimé : ${card.name}`);
-          toast('« '+card.name+' » supprimé', 'success', 2500);
-        }
+        persist(`Suppression : ${card ? card.name : ''}`);
       }
     });
   });
 }
 
-/* ================================================================
-   MODAL
-   ================================================================ */
 function openModal(id){
-  state.editingId = id || null;
-  const card = id ? state.cards.find(c=>c.id===id) : null;
-  document.getElementById('modalTitleText').textContent = card ? 'Modifier l\'outil' : 'Nouvel outil';
+  editingId = id || null;
+  const card = id ? cards.find(c=>c.id===id) : null;
+  document.getElementById('modalTitle').textContent = card ? "Modifier l'outil" : 'Ajouter un outil';
   document.getElementById('fName').value = card ? card.name : '';
   document.getElementById('fUrl').value = card ? card.url : '';
   document.getElementById('fDesc').value = card ? card.desc : '';
-  document.getElementById('fCategory').value = card ? (card.category||'autre') : 'autre';
-  document.getElementById('fTags').value = card ? (card.tags||[]).join(', ') : '';
-  document.getElementById('fPinned').checked = card ? !!card.pinned : false;
   document.getElementById('overlay').classList.add('show');
-  setTimeout(()=>document.getElementById('fName').focus(), 50);
+  document.getElementById('fName').focus();
 }
 function closeModal(){
   document.getElementById('overlay').classList.remove('show');
-  state.editingId = null;
+  editingId = null;
 }
 
-/* ================================================================
-   EVENTS
-   ================================================================ */
-function setupEvents(){
-  document.getElementById('addBtn').onclick = ()=>openModal(null);
-  document.getElementById('cancelBtn').onclick = closeModal;
-  document.getElementById('overlay').onclick = (e)=>{ if(e.target.id==='overlay') closeModal(); };
+document.getElementById('addBtn').addEventListener('click', ()=> openModal(null));
+document.getElementById('cancelBtn').addEventListener('click', closeModal);
+document.getElementById('overlay').addEventListener('click', (e)=>{
+  if(e.target.id==='overlay') closeModal();
+});
 
-  document.getElementById('cardForm').onsubmit = (e)=>{
-    e.preventDefault();
-    const name = document.getElementById('fName').value.trim();
-    const url = document.getElementById('fUrl').value.trim();
-    const desc = document.getElementById('fDesc').value.trim();
-    const category = document.getElementById('fCategory').value;
-    const tags = document.getElementById('fTags').value.split(',').map(t=>t.trim()).filter(Boolean);
-    const pinned = document.getElementById('fPinned').checked;
-    if(!name) return;
+document.getElementById('cardForm').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const name = document.getElementById('fName').value.trim();
+  const url = document.getElementById('fUrl').value.trim();
+  const desc = document.getElementById('fDesc').value.trim();
+  if(!name || !url) return;
 
-    let msg;
-    if(state.editingId){
-      const card = state.cards.find(c=>c.id===state.editingId);
-      if(card) Object.assign(card, {name, url, desc, category, tags, pinned});
-      msg = `Modifié : ${name}`;
-    } else {
-      state.cards.push({ id:makeId(), name, url, desc, category, tags, pinned });
-      msg = `Ajouté : ${name}`;
-      updateCount();
-    }
-    render();
-    closeModal();
-    persist(msg);
-    toast(msg, 'success', 2200);
-  };
+  let message;
+  if(editingId){
+    const card = cards.find(c=>c.id===editingId);
+    Object.assign(card, { name, url, desc });
+    message = `Modification : ${name}`;
+  } else {
+    cards.push({ id: makeId(), name, url, desc });
+    message = `Ajout : ${name}`;
+  }
+  render();
+  closeModal();
+  persist(message);
+});
 
-  document.getElementById('searchInput').oninput = (e)=>{ state.search = e.target.value; render(); };
+document.getElementById('searchInput').addEventListener('input', (e)=>{
+  search = e.target.value;
+  render();
+});
 
-  // View toggle
-  document.getElementById('viewGrid').onclick = ()=>{
-    state.view='grid';
-    document.getElementById('viewGrid').classList.add('active');
-    document.getElementById('viewList').classList.remove('active');
-    savePrefs(); render();
-  };
-  document.getElementById('viewList').onclick = ()=>{
-    state.view='list';
-    document.getElementById('viewList').classList.add('active');
-    document.getElementById('viewGrid').classList.remove('active');
-    savePrefs(); render();
-  };
-
-  // Sort (simple toggle A-Z / Z-A)
-  const sortBtn = document.getElementById('sortAlpha');
-  sortBtn.onclick = ()=>{
-    state.sort = state.sort==='alpha' ? 'rev' : 'alpha';
-    sortBtn.innerHTML = state.sort==='alpha'
-      ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h13"/><path d="M3 12h13"/><path d="M3 18h13"/><path d="M19 8l3 3-3 3"/></svg>A-Z`
-      : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h13"/><path d="M3 12h13"/><path d="M3 18h13"/><path d="M19 16l3-3-3-3"/></svg>Z-A`;
-    // Reverse by toggling sort function
-    const origSort = Array.prototype.sort;
-    // Just reverse the rendering order using CSS transform
-    const grid = document.getElementById('grid');
-    grid.style.display = 'none'; grid.offsetHeight; grid.style.display='';
-    // Simpler: swap order of cards temporarily via state
-    state.cards.reverse();
-    render();
-    toast(state.sort==='alpha'?'Tri A → Z':'Tri Z → A','info',1500);
-  };
-
-  // Refresh
-  document.getElementById('refreshBtn').onclick = ()=>loadFromGithub();
-
-  // Export
-  document.getElementById('exportBtn').onclick = ()=>{
-    const data = JSON.stringify(state.cards, null, 2);
-    const blob = new Blob([data], {type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = 'outils-methodes-logistiques-'+new Date().toISOString().slice(0,10)+'.json';
-    a.click();
-    URL.revokeObjectURL(url);
-    toast('Fichier exporté', 'success');
-  };
-
-  // Import
-  document.getElementById('importBtn').onclick = ()=>document.getElementById('importFile').click();
-  document.getElementById('importFile').onchange = async (e)=>{
-    const file = e.target.files[0];
-    if(!file) return;
-    try{
-      const text = await file.text();
-      const data = JSON.parse(text);
-      const arr = Array.isArray(data) ? data : (data.cards || []);
-      if(!Array.isArray(arr)) throw new Error('Format invalide');
-      const ok = await confirmDialog({
-        title: 'Importer ces données ?',
-        text: `${arr.length} outil${arr.length>1?'s':''} sera${arr.length>1?'ont':'va'} remplacer la liste actuelle.`,
-        note: 'Un export est recommandé avant.',
-        okText: 'Importer', danger:false
-      });
-      if(ok){
-        state.cards = arr.map(normalizeCard);
-        render(); updateCount();
-        persist('Import de données');
-        toast('Import réussi', 'success');
-      }
-    }catch(err){
-      toast('Fichier invalide : '+err.message, 'error');
-    }
-    e.target.value = '';
-  };
-
-  // Theme
-  document.getElementById('themeBtn').onclick = ()=>{
-    const cur = document.documentElement.getAttribute('data-theme');
-    const next = cur==='dark' ? 'light' : 'dark';
-    if(next==='light') document.documentElement.removeAttribute('data-theme');
-    else document.documentElement.setAttribute('data-theme','dark');
-    updateThemeIcon(); savePrefs();
-  };
-
-  // Settings
-  document.getElementById('settingsBtn').onclick = ()=>{
-    updateTokenStatus();
-    document.getElementById('settingsOverlay').classList.add('show');
-  };
-  document.getElementById('settingsClose').onclick = ()=>document.getElementById('settingsOverlay').classList.remove('show');
-  document.getElementById('settingsOverlay').onclick = (e)=>{ if(e.target.id==='settingsOverlay') document.getElementById('settingsOverlay').classList.remove('show'); };
-  document.getElementById('tokenLogout').onclick = async ()=>{
-    const ok = await confirmDialog({ title:'Déconnecter le token ?', text:'Il vous sera redemandé à la prochaine sauvegarde.', okText:'Déconnecter' });
-    if(ok) logoutToken();
-  };
-
-  // Shortcuts
-  document.addEventListener('keydown', (e)=>{
-    const tag = (e.target.tagName||'').toLowerCase();
-    const inField = ['input','textarea','select'].includes(tag);
-    if(e.key==='Escape'){
-      if(document.getElementById('overlay').classList.contains('show')) closeModal();
-      if(document.getElementById('settingsOverlay').classList.contains('show')) document.getElementById('settingsOverlay').classList.remove('show');
-      if(document.getElementById('confirmOverlay').classList.contains('show') && confirmCb) confirmCb(false);
-    }
-    if(e.key==='/' && !inField && !e.ctrlKey && !e.metaKey){
-      e.preventDefault();
-      document.getElementById('searchInput').focus();
-      document.getElementById('searchInput').select();
-    }
-    if((e.key==='n'||e.key==='N') && !inField && !e.ctrlKey && !e.metaKey && !e.altKey){
-      e.preventDefault();
-      openModal(null);
-    }
-  });
-
-  // Online/offline
-  window.addEventListener('online', ()=>{ state.isOnline=true; toast('Connexion rétablie', 'success'); });
-  window.addEventListener('offline', ()=>{ state.isOnline=false; setStatus('Hors ligne', 'offline'); toast('Connexion perdue', 'warn'); });
-}
-
-/* ================================================================
-   INIT
-   ================================================================ */
-loadPrefs();
-updateThemeIcon();
-setupEvents();
-render(); // skeleton
-loadFromGithub(true); // silent first load
+loadFromGithub();
 </script>
 
 </body>
