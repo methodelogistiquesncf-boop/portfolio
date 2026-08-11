@@ -67,4 +67,11 @@
     "url": "https://mikefri.github.io/mes_conges/",
     "desc": "Gérez et visualisez en un coup d'œil le planning des congés individuels et collectifs."
   }
+  ,
+  {
+    "id": "c2fzlxs7v",
+    "name": "Meteo",
+    "url": "https://mikefri.github.io/Plein_Ciel",
+    "desc": ""Meteo"
+  }
 ]
