@@ -73,5 +73,11 @@
     "name": "Meteo",
     "url": "https://mikefri-studio.github.io/Plein_Ciel/",
     "desc": "Service de prévisions météorologiques couvrant la France métropolitaine et les Outre-Mer. Recherche par ville, département ou région, météo en direct, prévisions détaillées sur 15 jours et navigation"
+  },
+  {
+    "id": "c2fzlxs7Z",
+    "name": "Planning Activités",
+    "url": "https://methodelogistiquesncf-boop.github.io/Charge_Capa_equipe/",
+    "desc": "Charge / Capacité — Équipe Performance & Méthodes logistique"
   }
 ]
